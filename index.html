@@ -53,8 +53,11 @@
         "amount": amountInPaise, 
         "currency": "INR",
         "name": "OPDzero by Nucleon Health",
+         "name": "{{Userfullname}}",
         "description": "Adalo dynamic payment test",
         "handler": function (response){
+    console.log("Payment Successful:", response);
+  },
           // This function is triggered when payment is successful
           alert("Payment ID: " + response.razorpay_payment_id);
         },
