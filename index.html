@@ -14,8 +14,8 @@
   }
 
   button#rzp-button1 {
-    padding: 60px 105px; /* 3x larger size */
-    font-size: 66px; /* Increased font size */
+    padding: 100px 145px; /* 3x larger size */
+    font-size: 99px; /* Increased font size */
     background-color: #5a189a; /* Dark purple background */
     color: #e0aaff; /* Light purple text */
     border-color: #3c096c; /* Darker purple border */
@@ -41,7 +41,7 @@
       
       // 2) Convert to paise (Razorpay expects amount in smallest currency unit)
       //    Example: 500 INR => 50000 paise
-      let amountInPaise = 10000; // a fallback, e.g. 100 INR 
+      let amountInPaise = 80000; // a fallback, e.g. 100 INR 
       if (amountParam) {
         const numericAmount = parseFloat(amountParam);
         amountInPaise = numericAmount * 100; 
