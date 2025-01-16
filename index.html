@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Razorpay Dynamic Payment</title>
+  </head>
+  <body>
+
+    <button id="payButton">Pay Now</button>
+
+    <script>
+      // 1) Parse the amount from the URL query param
+      const urlParams = new URLSearchParams(window.location.search);
+      const amountParam = urlParams.get('amt'); 
+      
+      // 2) Convert to paise (Razorpay expects amount in smallest currency unit)
+      //    Example: 500 INR => 50000 paise
+      let amountInPaise = 10000; // a fallback, e.g. 100 INR 
+      if (amountParam) {
+        const numericAmount = parseFloat(amountParam);
+        amountInPaise = numericAmount * 100; 
+      }
+
+      // 3) Configure Razorpay Checkout
+      const options = {
+        "key": "YOUR_RAZORPAY_KEY",  // <-- Put your test or live key here
+        "amount": amountInPaise, 
+        "currency": "INR",
+        "name": "Your Company",
+        "description": "Adalo dynamic payment test",
+        "handler": function (response){
+          // This function is triggered when payment is successful
+          alert("Payment ID: " + response.razorpay_payment_id);
+        },
+        "theme": {
+          "color": "#3399cc"
+        }
+      };
+
+      // 4) Attach to button click
+      const payButton = document.getElementById('payButton');
+      payButton.addEventListener('click', () => {
+        const rzp1 = new Razorpay(options);
+        rzp1.open();
+      });
+    </script>
+
+    <!-- Razorpay Checkout script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </body>
+</html>
