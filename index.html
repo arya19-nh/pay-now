@@ -35,18 +35,16 @@
     <button id="payButton">Pay Now</button>
 
     <script>
-      // 1) Parse the amount from the URL query param
       const urlParams = new URLSearchParams(window.location.search);
-      const amountParam = urlParams.get('amt'); 
-      
-      // 2) Convert to paise (Razorpay expects amount in smallest currency unit)
-      //    Example: 500 INR => 50000 paise
-      let amountInPaise = 1000; // a fallback, e.g. 100 INR 
-      if (amountParam) {
-        const numericAmount = parseFloat(amountParam);
-        amountInPaise = numericAmount * 100; 
-      }
+const amountParam = urlParams.get('amt');
+let amountInPaise = 1000; // Default ₹10 (1000 paise)
 
+if (amountParam) {
+    const numericAmount = parseFloat(amountParam);
+    if (!isNaN(numericAmount)) {
+        amountInPaise = numericAmount * 100; // Convert to paise
+    }
+}
       // 3) Configure Razorpay Checkout
       const options = {
         "key": "rzp_live_FChgiuTiZsjJ1G",  // <-- Put your test or live key here
