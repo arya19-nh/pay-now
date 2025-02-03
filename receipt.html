@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Receipt</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,6 +18,7 @@
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             display: inline-block;
+            width: 350px;
         }
         h1 {
             font-size: 28px;
@@ -35,8 +37,9 @@
         .details {
             margin-top: 20px;
             font-size: 16px;
+            text-align: left;
         }
-        .back-btn {
+        .back-btn, .download-btn {
             margin-top: 20px;
             display: inline-block;
             padding: 10px 20px;
@@ -44,12 +47,18 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        .download-btn {
+            background-color: #4CAF50; /* Green for download button */
         }
     </style>
 </head>
 <body>
 
-    <div class="receipt-container">
+    <div class="receipt-container" id="receipt">
         <h1 id="paymentStatusHeading"></h1>
         <p id="statusMessage" class="status-message"></p>
 
@@ -57,24 +66,26 @@
             <p><strong>Payment ID:</strong> <span id="paymentId"></span></p>
             <p><strong>Amount Paid:</strong> ₹<span id="amount"></span></p>
             <p><strong>Status:</strong> <span id="status"></span></p>
+            <p><strong>Date:</strong> <span id="paymentDate"></span></p>
         </div>
 
+        <button class="download-btn" onclick="downloadReceipt()">Download Receipt</button>
         <a href="index.html" class="back-btn">Back to Home</a>
     </div>
 
     <script>
-        // Fetch query parameters
         const urlParams = new URLSearchParams(window.location.search);
         const paymentId = urlParams.get("payment_id") || "N/A";
         const amount = urlParams.get("amount") || "N/A";
         const status = urlParams.get("status") || "Failed";
 
-        // Update UI
+        const paymentDate = new Date().toLocaleString(); // Get current date and time
+
         document.getElementById("paymentId").textContent = paymentId;
         document.getElementById("amount").textContent = amount;
         document.getElementById("status").textContent = status;
+        document.getElementById("paymentDate").textContent = paymentDate;
 
-        // Change Heading & Message based on Payment Status
         const paymentStatusHeading = document.getElementById("paymentStatusHeading");
         const statusMessage = document.getElementById("statusMessage");
 
@@ -87,7 +98,25 @@
             statusMessage.textContent = "Your payment was not processed. Please try again.";
             statusMessage.classList.add("failed");
         }
+
+        function downloadReceipt() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.text("Payment Receipt", 80, 20);
+
+            doc.setFontSize(12);
+            doc.text(`Payment ID: ${paymentId}`, 20, 40);
+            doc.text(`Amount Paid: ₹${amount}`, 20, 50);
+            doc.text(`Status: ${status}`, 20, 60);
+            doc.text(`Date: ${paymentDate}`, 20, 70);
+            doc.text("Thank you for your transaction!", 20, 90);
+
+            doc.save(`Payment_Receipt_${paymentId}.pdf`);
+        }
     </script>
 
 </body>
 </html>
+
