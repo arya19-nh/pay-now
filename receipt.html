@@ -66,11 +66,13 @@
             <p><strong>Payment ID:</strong> <span id="paymentId"></span></p>
             <p><strong>Amount Paid:</strong> ₹<span id="amount"></span></p>
             <p><strong>Status:</strong> <span id="status"></span></p>
+            <p><strong>Name:</strong> <span id="userName"></span></p>
+            <p><strong>Mobile Number:</strong> <span id="userPhone"></span></p>
             <p><strong>Date:</strong> <span id="paymentDate"></span></p>
         </div>
 
         <button class="download-btn" onclick="downloadReceipt()">Download Receipt</button>
-        <a href="https://checkups-team.adalo.com/demo-opdless?target=998942e43ce445e7a8ed43cc51862f42&params=%7B%7D" class="back-btn">Back to Home</a>
+        <a href="https://app.adalo.com/apps/YOUR-APP-ID" class="back-btn">Back to Home</a>
     </div>
 
     <script>
@@ -78,12 +80,15 @@
         const paymentId = urlParams.get("payment_id") || "N/A";
         const amount = urlParams.get("amount") || "N/A";
         const status = urlParams.get("status") || "Failed";
-
+        const userName = decodeURIComponent(urlParams.get("name") || "N/A");
+        const userPhone = urlParams.get("phone") || "N/A";
         const paymentDate = new Date().toLocaleString(); // Get current date and time
 
         document.getElementById("paymentId").textContent = paymentId;
         document.getElementById("amount").textContent = amount;
         document.getElementById("status").textContent = status;
+        document.getElementById("userName").textContent = userName;
+        document.getElementById("userPhone").textContent = userPhone;
         document.getElementById("paymentDate").textContent = paymentDate;
 
         const paymentStatusHeading = document.getElementById("paymentStatusHeading");
@@ -110,8 +115,10 @@
             doc.text(`Payment ID: ${paymentId}`, 20, 40);
             doc.text(`Amount Paid: ₹${amount}`, 20, 50);
             doc.text(`Status: ${status}`, 20, 60);
-            doc.text(`Date: ${paymentDate}`, 20, 70);
-            doc.text("Thank you for your transaction!", 20, 90);
+            doc.text(`Name: ${userName}`, 20, 70);
+            doc.text(`Mobile Number: ${userPhone}`, 20, 80);
+            doc.text(`Date: ${paymentDate}`, 20, 90);
+            doc.text("Thank you for your transaction!", 20, 110);
 
             doc.save(`Payment_Receipt_${paymentId}.pdf`);
         }
