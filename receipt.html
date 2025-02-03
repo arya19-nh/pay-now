@@ -19,11 +19,18 @@
             display: inline-block;
         }
         h1 {
-            color: #845ec2;
+            font-size: 28px;
         }
-        .success-message {
-            color: green;
+        .status-message {
             font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+        }
+        .failed {
+            color: red;
         }
         .details {
             margin-top: 20px;
@@ -43,9 +50,9 @@
 <body>
 
     <div class="receipt-container">
-        <h1>Payment Successful! 🎉</h1>
-        <p class="success-message">Thank you for your payment.</p>
-        
+        <h1 id="paymentStatusHeading"></h1>
+        <p id="statusMessage" class="status-message"></p>
+
         <div class="details">
             <p><strong>Payment ID:</strong> <span id="paymentId"></span></p>
             <p><strong>Amount Paid:</strong> ₹<span id="amount"></span></p>
@@ -58,9 +65,28 @@
     <script>
         // Fetch query parameters
         const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById("paymentId").textContent = urlParams.get("payment_id") || "N/A";
-        document.getElementById("amount").textContent = urlParams.get("amount") || "N/A";
-        document.getElementById("status").textContent = urlParams.get("status") || "Failed";
+        const paymentId = urlParams.get("payment_id") || "N/A";
+        const amount = urlParams.get("amount") || "N/A";
+        const status = urlParams.get("status") || "Failed";
+
+        // Update UI
+        document.getElementById("paymentId").textContent = paymentId;
+        document.getElementById("amount").textContent = amount;
+        document.getElementById("status").textContent = status;
+
+        // Change Heading & Message based on Payment Status
+        const paymentStatusHeading = document.getElementById("paymentStatusHeading");
+        const statusMessage = document.getElementById("statusMessage");
+
+        if (status.toLowerCase() === "success") {
+            paymentStatusHeading.textContent = "Payment Successful! 🎉";
+            statusMessage.textContent = "Thank you for your payment.";
+            statusMessage.classList.add("success");
+        } else {
+            paymentStatusHeading.textContent = "Payment Failed ❌";
+            statusMessage.textContent = "Your payment was not processed. Please try again.";
+            statusMessage.classList.add("failed");
+        }
     </script>
 
 </body>
