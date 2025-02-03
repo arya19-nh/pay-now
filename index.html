@@ -41,7 +41,7 @@
       
       // 2) Convert to paise (Razorpay expects amount in smallest currency unit)
       //    Example: 500 INR => 50000 paise
-      let amountInPaise = 80000; // a fallback, e.g. 100 INR 
+      let amountInPaise = 1000; // a fallback, e.g. 100 INR 
       if (amountParam) {
         const numericAmount = parseFloat(amountParam);
         amountInPaise = numericAmount * 100; 
