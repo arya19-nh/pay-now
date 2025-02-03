@@ -2,49 +2,68 @@
 <html>
 <head>
   <title>Adalo + Razorpay Dynamic Payment</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #ead2f7;
-  }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f8f3fc; /* Soft pastel lavender */
+      flex-direction: column;
+      text-align: center;
+    }
 
-  button#rzp-button1 {
-    padding: 100px 145px; /* 3x larger size */
-    font-size: 99px; /* Increased font size */
-    background-color: #5a189a; /* Dark purple background */
-    color: #e0aaff; /* Light purple text */
-    border-color: #3c096c; /* Darker purple border */
-    border-radius: 21px; /* Proportional border radius */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+    h1 {
+      color: #845ec2; /* Soft pastel purple */
+      font-size: 28px;
+      margin-bottom: 9px;
+    }
 
-  button#rzp-button1:hover {
-    background-color: #9d4edd; /* Light purple background on hover */
-    color: #ffffff; /* White text on hover for better contrast */
-  }
-</style>
+    p {
+      font-size: 14px;
+      color: #a084ca; /* Soft lavender */
+      margin-bottom: 20px;
+    }
+
+    button#payButton {
+      padding: 38px88px; /* 2x smaller */
+      font-size: 20px; /* Adjusted font size */
+      background-color: #d5c5e5; /* Soft pastel purple */
+      color: #5a4d78; /* Darker pastel for contrast */
+      border: 2px solid #b7a6d3; /* Light purple border */
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button#payButton:hover {
+      background-color: #e6dbf5; /* Even softer pastel hover */
+      color: #4b3f60;
+      transform: scale(1.02); /* Slight zoom effect */
+    }
+  </style>
 </head>
 <body>
+
+    <h1>Secure Payment</h1>
+    <p>Click below to proceed with your payment.</p>
 
     <button id="payButton">Pay Now</button>
 
     <script>
       const urlParams = new URLSearchParams(window.location.search);
-const amountParam = urlParams.get('amt');
-let amountInPaise = 1000; // Default ₹10 (1000 paise)
+      const amountParam = urlParams.get('amt');
+      let amountInPaise = 1000; // Default ₹10 (1000 paise)
 
-if (amountParam) {
-    const numericAmount = parseFloat(amountParam);
-    if (!isNaN(numericAmount)) {
-        amountInPaise = numericAmount * 100; // Convert to paise
-    }
-}
+      if (amountParam) {
+          const numericAmount = parseFloat(amountParam);
+          if (!isNaN(numericAmount)) {
+              amountInPaise = numericAmount * 100; // Convert to paise
+          }
+      }
+
       // 3) Configure Razorpay Checkout
       const options = {
         "key": "rzp_live_FChgiuTiZsjJ1G",  // <-- Put your test or live key here
@@ -57,7 +76,7 @@ if (amountParam) {
           alert("Payment ID: " + response.razorpay_payment_id);
         },
         "theme": {
-          "color": "#3399cc"
+          "color": "#b7a6d3" /* Soft pastel theme */
         }
       };
 
@@ -71,5 +90,5 @@ if (amountParam) {
 
     <!-- Razorpay Checkout script -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  </body>
+</body>
 </html>
