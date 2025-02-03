@@ -71,13 +71,13 @@
         "currency": "INR",
         "name": "OPDzero by Nucleon Health",
         "description": "Adalo dynamic payment test",
-         "handler": function (response) {
-        // Show an alert with the payment details
-        alert("Payment Successful!\nPayment ID: " + response.razorpay_payment_id);
-
-        // Generate a receipt (redirect to a thank-you page with receipt details)
-        window.location.href = `receipt.html?payment_id=${response.razorpay_payment_id}&amount=${amountInPaise/100}&status=success`;
-    },
+        "handler": function (response) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userName = urlParams.get("name") || "N/A";
+    const userPhone = urlParams.get("phone") || "N/A";
+    
+    window.location.href = `https://arya19-nh.github.io/pay-now/receipt.html?payment_id=${response.razorpay_payment_id}&amount=${amountInPaise/100}&status=success&name=${encodeURIComponent(userName)}&phone=${userPhone}`;
+},
 
     "theme": {
       "color": "#b7a6d3"
